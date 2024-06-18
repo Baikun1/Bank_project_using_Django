@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Operation - OurBank
+{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-lg mx-auto bg-white dark:bg-gray-800 p-8 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center">Operation</h2>
+
+    <!-- Operation Buttons -->
+    <div class="mb-6 text-center">
+        <button onclick="showForm('debitForm')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2">Debit</button>
+        <button onclick="showForm('creditForm')" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2">Credit</button>
+        <button onclick="showForm('checkBalanceForm')" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-2">Check Balance</button>
+    </div>
+
+    <!-- Debit Form -->
+    <form id="debitForm" method="POST" action="{% url 'debit' %}" class="mb-6 hidden">
+        {% csrf_token %}
+        <h3 class="text-xl font-bold mb-4">Debit Operation</h3>
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="accno">Account Number</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="accno" type="number" name="accno" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="withdrawAmount">Withdraw Amount</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="withdrawAmount" type="number" name="withdrawAmount" required>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Debit
+            </button>
+        </div>
+    </form>
+
+    <!-- Credit Form -->
+    <form id="creditForm" method="POST" action="{% url 'credit' %}" class="mb-6 hidden">
+        {% csrf_token %}
+        <h3 class="text-xl font-bold mb-4">Credit Operation</h3>
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="accno">Account Number</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="accno" type="number" name="accno" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="depositAmount">Deposit Amount</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="depositAmount" type="number" name="depositAmount" required>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Credit
+            </button>
+        </div>
+    </form>
+
+    <!-- Check Balance Form -->
+    <form id="checkBalanceForm" method="POST" action="{% url 'check_balance' %}" class="mb-6 hidden">
+        {% csrf_token %}
+        <h3 class="text-xl font-bold mb-4">Check Balance Operation</h3>
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="balanceAccount">Account Number</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="balanceAccount" type="number" name="balanceAccount" required>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Check Balance
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function showForm(formId) {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.classList.add('hidden');
+        });
+        document.getElementById(formId).classList.remove('hidden');
+    }
+</script>
+{% endblock %}

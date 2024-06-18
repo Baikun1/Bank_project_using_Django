@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}OurBank{% endblock %}
+
+{% block extra_css %}
+    <!-- Include any additional CSS specific to index.html if needed -->
+{% endblock %}
+
+{% block content %}
+    <div class="w-full max-w-lg mx-auto bg-white dark:bg-gray-800 p-8 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-6 text-center">Welcome to OurBank</h2>
+
+        <!-- Terms and Conditions -->
+        <div class="mb-6">
+            <h3 class="text-xl font-bold mb-4">Terms and Conditions</h3>
+            <p class="text-gray-700 dark:text-gray-300">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero nec sapien vehicula, id placerat odio ultricies. In in neque nunc. Aenean a augue orci. 
+            </p>
+        </div>
+
+        <!-- Bank Details -->
+        <div class="mb-6">
+            <h3 class="text-xl font-bold mb-4">Bank Details</h3>
+            <p class="text-gray-700 dark:text-gray-300">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero nec sapien vehicula, id placerat odio ultricies. In in neque nunc. Aenean a augue orci.
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <!-- Include any additional JavaScript specific to index.html if needed -->
+{% endblock %}

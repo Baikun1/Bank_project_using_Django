@@ -1,0 +1,101 @@
+<!-- account_history.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Account History - OurBank{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-10">
+    <div class="w-full max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-6 text-center">Account History</h2>
+
+        <!-- Account Number Form -->
+        <form id="accountHistoryForm" method="POST" action="{% url 'account_history' %}" class="mb-6 flex justify-between items-center">
+            {% csrf_token %}
+            <div class="relative">
+                <label for="accountNumber" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Account Number</label>
+                <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter your account number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" required>
+            </div>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Fetch Account History
+            </button>
+        </form>
+
+        <!-- Date Filter -->
+        <form id="dateFilterForm" method="GET" action="{% url 'account_history' %}" class="mb-6">
+            <label for="filterDate" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Filter by Date</label>
+            <div class="relative">
+                <input type="text" id="filterDate" name="filterDate" placeholder="Select date in format yyyy-mm-dd" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" required>
+            </div>
+        </form>
+
+        <!-- Transaction History Table -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
+                <thead>
+                    <tr class="bg-gray-200 dark:bg-gray-700">
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Transaction Type</th>
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Amount</th>
+                        <th class="px-6 py-3 text-left text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                        <tr class="{% cycle 'bg-white dark:bg-gray-800' 'bg-gray-50 dark:bg-gray-900' %}">
+                            <td class="px-6 py-4 whitespace-nowrap">{{ transaction.transaction_type }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ transaction.amount }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ transaction.timestamp }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3" class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">No transactions found for this account.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-6 flex justify-between items-center">
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+                {% if transactions.has_previous %}
+                    <a href="?page={{ transactions.previous_page_number }}">Previous</a>
+                {% endif %}
+                Page {{ transactions.number }} of {{ transactions.paginator.num_pages }}
+                {% if transactions.has_next %}
+                    <a href="?page={{ transactions.next_page_number }}">Next</a>
+                {% endif %}
+            </div>
+            <!-- Add pagination links as per Django Paginator documentation -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript to initialize Flatpickr date picker
+    flatpickr("#filterDate", {
+        dateFormat: "Y-m-d",  // Format to match Django's DateField format
+        altInput: true,
+        altFormat: "F j, Y",  // Human-readable format for display
+        allowInput: true,
+        // You can add more options here as per your requirements
+    });
+
+    // JavaScript to show date filter form on account number submission
+    const accountNumberInput = document.getElementById('accountNumber');
+    const dateFilterForm = document.getElementById('dateFilterForm');
+
+    document.getElementById('accountHistoryForm').addEventListener('submit', (event) => {
+        event.preventDefault();  // Prevent form submission for now
+
+        // Show date filter form and focus on input
+        dateFilterForm.style.display = 'block';
+        document.getElementById('filterDate').focus();
+
+        // Optional: You can submit the form programmatically here if needed
+        // dateFilterForm.submit();
+    });
+</script>
+
+{% endblock %}

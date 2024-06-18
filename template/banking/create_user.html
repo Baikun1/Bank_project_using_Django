@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create New User - OurBank
+{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-lg mx-auto bg-white dark:bg-gray-800 p-8 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center">Create New User</h2>
+    <form method="POST" action="{% url 'create_new_user' %}">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="accno">Account Number</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="accno" type="text" name="accno" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="phno">Phone Number</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="phno" type="text" name="phno" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="name">Name</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" name="name" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="bal">Initial Balance</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="bal" type="text" name="bal" required>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="pin">PIN</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-900 leading-tight focus:outline-none focus:shadow-outline" id="pin" type="password" name="pin" required>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Create User
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}OurBank{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+    <style>
+        html, body {
+            height: 100%;
+        }
+        .dark-mode {
+            background-color: #1a202c; /* Dark mode background color */
+            color: #e2e8f0; /* Dark mode text color */
+        }
+        .message-box {
+            border-radius: 0.375rem; /* Rounded corners */
+            padding: 1rem; /* Padding */
+            margin-bottom: -1rem; /* Margin */
+            position: relative; /* For positioning the close button */
+            z-index: 1;
+        }
+        .message-box.success {
+            background-color: #d1fae5; /* Light green background for success */
+            color: #065f46; /* Dark green text for success */
+        }
+        .message-box.error {
+            background-color: #fee2e2; /* Light red background for error */
+            color: #991b1b; /* Dark red text for error */
+        }
+        .message-box .close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function closeMessage(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white">
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between">
+            <div>
+                <a href="{% url 'index' %}" class="text-white font-bold">OurBank</a>
+            </div>
+            <div>
+                <a href="{% url 'create_new_user' %}" class="text-gray-300 hover:text-white px-3">Create New User</a>
+                <a href="{% url 'access_account' %}" class="text-gray-300 hover:text-white px-3">Access Account</a>
+                <a href="{% url 'delete_user' %}" class="text-gray-300 hover:text-white px-3">Delete Account</a>
+                <a href="{% url 'account_history' %}" class="text-gray-300 hover:text-white px-3">Transaction History</a>
+            </div>
+        </div>
+    </nav>
+        <div class="container mx-auto mt-10 flex-grow">
+        {% if messages %}
+            {% for message in messages %}
+                <div id="message-{{ forloop.counter }}" class="message-box {% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% endif %}">
+                    <span>{{ message }}</span>
+                    <span class="close-btn" onclick="closeMessage('message-{{ forloop.counter }}')">&times;</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container mx-auto mt-10 flex-grow">
+        {% block content %}{% endblock %}
+    </div>
+
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <div class="container mx-auto">
+            &copy; {{ today|date:"Y" }} OurBank. All rights reserved.
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
